@@ -1,9 +1,8 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import shelljs from 'shelljs';
 
-const dirname = shelljs.pwd();
+const dirname = process.cwd();
 const LOG_PATH = path.join(dirname, 'data.log');
 const app = express();
 const PORT = process.env.PORT || 8080;
