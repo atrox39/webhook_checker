@@ -26,7 +26,7 @@ const webhook = async (req, res, next) => {
 
 app.get('/', async (req, res) => {
   const logs = await LogModel.find().lean();
-  res.json('index', {logs});
+  res.render('index', {logs});
 });
 app.get('/webhook', webhook);
 app.post('/webhook', webhook);
