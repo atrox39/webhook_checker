@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-import-module-exports
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 

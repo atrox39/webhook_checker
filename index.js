@@ -1,21 +1,9 @@
 /* eslint-disable import/first */
-import express from 'express';
-import dotenv from 'dotenv';
-
+const express = require('express');
+const dotenv = require('dotenv');
 dotenv.config();
-
-import database from './database';
-
-database.on('open', () => {
-  console.log('success');
-});
-
-database.on('error', (err) => {
-  console.log('error: ', err);
-});
-
-import LogModel from './Log.model';
-
+const database = require('./database');
+const LogModel = require('./Log.model');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
