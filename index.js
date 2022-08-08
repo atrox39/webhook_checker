@@ -21,7 +21,7 @@ const webhook = async (req, res, next) => {
     urlParams: params,
   });
   await LogModel.create({
-    info: `Params: ${query}\nBody: ${body}\nUrlParams: ${params}`,
+    info: `Params: ${query ?? 'EMPTY'}\nBody: ${body ?? 'EMPTY'}\nUrlParams: ${params ?? 'EMPTY'}`,
   });
   next();
 };
