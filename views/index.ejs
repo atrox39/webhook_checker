@@ -16,10 +16,16 @@
       <% for(var i=0; i<logs.length; i++) { %>
       <tr>
         <td>
-          <%= logs[i].info %>
+          <% if (logs[i].info) { %>
+            <%= JSON.stringify(logs[i].info.params) %><br>
+            <%= JSON.stringify(logs[i].info.body) %><br>
+            <%= JSON.stringify(logs[i].info.urlParams) %>
+          <% } else { %>
+            NO INFO
+          <% } %>
         </td>
         <td>
-          <%= logs[i].createAt %>
+          <%= logs[i].createdAt %>
         </td>
       </tr>
       <% } %>

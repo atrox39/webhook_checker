@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 
 const Log = new Schema({
   info: {
-    type: String,
+    type: Object,
   },
 }, {
   timestamps: true,
