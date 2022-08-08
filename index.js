@@ -1,13 +1,25 @@
+/* eslint-disable import/first */
 import express from 'express';
-import path from 'path';
-import fs from 'fs';
+import dotenv from 'dotenv';
 
-const dirname = process.cwd();
-const LOG_PATH = path.join(dirname, 'data.log');
+dotenv.config();
+
+import database from './database';
+
+database.on('open', () => {
+  console.log('success');
+});
+
+database.on('error', (err) => {
+  console.log('error: ', err);
+});
+
+import LogModel from './Log.model';
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const webhook = (req, res, next) => {
+const webhook = async (req, res, next) => {
   const { query, body, params } = req.query;
   console.log(`Params: ${query}\nBody: ${body}\nUrlParams: ${params}\n\n`);
   res.json({
@@ -15,7 +27,9 @@ const webhook = (req, res, next) => {
     body,
     urlParams: params,
   });
-  fs.writeFileSync(LOG_PATH, `Params: ${query}\nBody: ${body}\nUrlParams: ${params}\n\n`);
+  await LogModel.create({
+    info: `Params: ${query}\nBody: ${body}\nUrlParams: ${params}\n\n`,
+  });
   next();
 };
 
@@ -24,9 +38,9 @@ app.post('/webhook', webhook);
 app.put('/webhook', webhook);
 app.delete('/webhook', webhook);
 // Data
-app.get('/logs', (req, res) => {
-  const logs = fs.readFileSync(LOG_PATH);
-  res.send(logs);
+app.get('/logs', async (req, res) => {
+  const logs = await LogModel.find().lean();
+  res.json(logs);
 });
 
 app.listen(PORT, () => {
